@@ -78,7 +78,7 @@ class App extends Component {
     return (
       <OutsideWorld>
         <Wrapper>
-          <div><Detail current={current} items={items} /></div>
+          <div><Detail item={current} items={items} /></div>
           <div><List onChange={this.handleActiveItemChange} items={items} /></div>
         </Wrapper>
         <style

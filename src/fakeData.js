@@ -68,7 +68,6 @@ export const items = [
     id: '14',
     type: '360',
     rotationAxis: 'x',
-    src: '/publice.jpg',
     images: [
       '/public/360/tile001.png',
       '/public/360/tile002.png',
@@ -109,7 +108,7 @@ export const items = [
   }, {
     id: '15',
     type: 'video',
-    iframeSrc: '/publichttps://www.youtube.com/embed/EBYsx1QWF9A',
+    iframeSrc: 'https://www.youtube.com/embed/EBYsx1QWF9A',
   },
 ];
 
