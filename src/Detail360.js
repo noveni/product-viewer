@@ -134,11 +134,16 @@ class Detail360 extends Component {
         1
       );
       let expectedIndex;
-
-      if (isSwipingRight) {
-        expectedIndex = visibleFrame - expectedIndexDifference < 0 ? images.length - 1 : visibleFrame - expectedIndexDifference;
+      if (!isSwipingRight) {
+        console.log('§§§ isSwipingRight', !isSwipingRight);
+        expectedIndex = visibleFrame - expectedIndexDifference < 0
+          ? images.length - 1
+          : visibleFrame - expectedIndexDifference;
       } else {
-        expectedIndex = visibleFrame + expectedIndexDifference >= images.length ? 0 : visibleFrame + expectedIndexDifference;
+        console.log('§§§ isSwipingleft', isSwipingRight);
+        expectedIndex = visibleFrame + expectedIndexDifference >= images.length
+          ? 0 + ((visibleFrame + expectedIndexDifference) - images.length)
+          : visibleFrame + expectedIndexDifference;
       }
 
       // if (expectedIndex < 0) {
@@ -148,8 +153,10 @@ class Detail360 extends Component {
       //   expectedIndex -= images.length;
       // }
 
-      console.log('theAbsX', theAbsX);
-      console.log('expectedindex is', expectedIndex, 'on', images.length, '\n');
+      console.log('§§ theAbsX', theAbsX);
+      console.log('§§ visibleFrame', visibleFrame);
+      console.log('§§ expectedIndexDifference is', expectedIndexDifference, 'on', images.length, '\n');
+      console.log('§§ expectedindex is', expectedIndex, 'on', images.length, '\n');
 
       this.setState({
         lastKnownAbsX: theAbsX,
