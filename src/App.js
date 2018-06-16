@@ -11,19 +11,12 @@ const OutsideWorld = styled.div`
   height: 600px;
   max-width: 100vw;
   max-height: 100vh;
-
-  /* width: 100%;
-  height: 100%; */
-
   margin: 0 auto;
-
-  /* max-height: 100vh; */
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* height: 100%; */
   max-height: 100vh;
 
   & > * {
@@ -35,16 +28,12 @@ const Wrapper = styled.div`
     flex-grow: 2;
     flex-shrink: 0;
     height: 100%;
-    /* max-height: 100vh; */
-    /* max-height: calc(100vh - 80px);
-    max-height: calc(100% - 80px); */
   }
   & > *:nth-child(2) {
     flex-shrink: 0;
     flex-grow: 1;
     max-height: 80px;
     height: 80px;
-    /* max-height: 100vh; */
     align-items: center;
     display: flex;
     overflow-x: scroll;
@@ -73,7 +62,6 @@ class App extends Component {
   }
 
   handleActiveItemChange(newActiveElementID) {
-    console.log('handleActiveItemChange', newActiveElementID);
     const current = (
       this.state.items.find(x => x.id === newActiveElementID)
       || this.state.current
