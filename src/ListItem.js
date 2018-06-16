@@ -1,50 +1,36 @@
 import React from 'react';
-import styled from 'styled-components';
+import ListItemUi from './ListItemUi';
+import Button from './Button';
 import Img from './Img';
 
-const ListItemUI = styled.div`
-  display: flex;
-  min-width: 80px;
-  margin: 2px;
-`;
-
-const Button = styled.button`
-  border: none;
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-`;
 
 const ListItem = ({ item, onChange }) => (
-  <ListItemUI >
+  <ListItemUi >
     {item && item.src && (
       <Button onClick={() => onChange(item.id)}>
         <Img style={{ maxHeight: '80px' }} src={item.src} alt="" />
       </Button>
     )}
-  </ListItemUI>
+  </ListItemUi>
+);
+const ListItem360 = ({ item, onChange }) => (
+  <ListItemUi className=".cd-product-viewer-wrapper" >
+    {item && item.images && item.images[0] && (
+    <Button onClick={() => onChange(item.id)}>
+      <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
+    </Button>
+  )}
+  </ListItemUi>
 );
 
 const ListItemVideo = ({ item, onChange }) => (
-  <ListItemUI >
+  <ListItemUi >
     {item && item.iframeSrc && (
       <Button onClick={() => onChange(item.id)}>
         VIDEO
       </Button>
     )}
-  </ListItemUI>
-);
-
-const ListItem360 = ({ item, onChange }) => (
-  <ListItemUI >
-    {item && item.images && (
-      <Button onClick={() => onChange(item.id)}>
-        <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
-      </Button>
-    )}
-  </ListItemUI>
+  </ListItemUi>
 );
 
 

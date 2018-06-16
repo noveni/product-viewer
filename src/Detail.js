@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Img from './Img';
 import RatioBox from './RatioBox';
+import Detail360 from './Detail360';
 
 const DetailUi = styled.div`
   height: 100%;
@@ -29,15 +30,6 @@ const Detail = ({ item }) => (
     {
       item && item.src &&
       (<Img style={{ margin: '0 auto' }} src={item.src} alt="" />)
-    }
-  </DetailUi>
-);
-
-const Detail360 = ({ item }) => (
-  <DetailUi>
-    {
-      item && item.images &&
-      (<Img style={{ margin: '0 auto' }} src={item.images[0]} alt="" />)
     }
   </DetailUi>
 );
