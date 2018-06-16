@@ -79,7 +79,6 @@ export const items = [
       '/public/360CAR/tile032.png',
       '/public/360CAR/tile033.png',
       '/public/360CAR/tile034.png',
-      '/public/360CAR/tile035.png',
     ],
   }, {
     id: '1',
