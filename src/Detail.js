@@ -15,7 +15,14 @@ const DetailUiVideo = DetailUi.extend`
   @media (min-height: 400) {
     max-width: 100vh;
   }
+  iframe {
+    border: none;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
 `;
+
 
 const Detail = ({ item }) => (
   <DetailUi>
@@ -46,7 +53,7 @@ const DetailVideo = ({ item }) => (
             maxHeight: 'calc(100% - 80px)',
           }}
         >
-          <iframe style={{ margin: '0 auto', width: '100%', height: '100%' }} src={item.iframeSrc} title="" />
+          <iframe src={item.iframeSrc} title="" />
         </RatioBox>
       )
   }
