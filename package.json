@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-swipeable": "^4.3.0",

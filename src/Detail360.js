@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
+import debounce from 'lodash.debounce';
 import DetailUi from './ListItemUi';
 import Img from './Img';
 
@@ -15,6 +16,7 @@ class Detail360 extends Component {
     this.swiping = this.swiping.bind(this);
     this.swiped = this.swiped.bind(this);
     this.storeRef = this.storeRef.bind(this);
+    this.swiping = debounce(this.swiping.bind(this), 16);
   }
 
   componentDidMount() {
@@ -39,45 +41,41 @@ class Detail360 extends Component {
     const { containerWidth } = this.state;
 
     if (this.ref) {
-      // console.log(e);
-      console.log(
-      'deltaX', deltaX,
-      // 'deltaY', deltaY,
-      // 'absX', absX,
-      // 'absY', absY,
-      // 'velocity', velocity
-      );
-
-      let visibleFrame = this.state.visibleFrame;
-
-      const isSwipingRight = deltaX > 0 && deltaY < deltaX;
-      const isSwipingLeft = deltaX >= 0 && deltaY < deltaX;
-
+      const visibleFrame = this.state.visibleFrame;
+      const isSwipingHorizontaly = Math.abs(deltaX) > 0 && Math.abs(deltaY) < Math.abs(deltaX);
+      const isSwipingRight = !(deltaX > 0);
       /**
        * |<------------container------------->|
        * |                                    |
        * |     ↑<--swipeLeft-- <↓             |
        * |                                    |
        */
-      const precentageMovedOnScreen = containerWidth - Math.abs(deltaX);
+      const precentageMovedOnScreen = containerWidth - deltaX;
       const currentIndex =
         Math.round(lt(precentageMovedOnScreen, 0, window.innerWidth, 0, images.length));
 
-      console.log('currentIndex', currentIndex);
-      if (isSwipingRight) {
-        visibleFrame = currentIndex >= images.length - 1 ? 0 : currentIndex;
-      } else if (isSwipingLeft) {
-        visibleFrame = currentIndex <= 0 ? images.length - 1 : currentIndex;
-      }
+      // if (isSwipingHorizontaly) {
+      //   if (isSwipingRight) {
+      //     visibleFrame = (visibleFrame + currentIndex) >= images.length - 1
+      //     ? 0 + ((images.length - 1) - visibleFrame)
+      //     : (visibleFrame + currentIndex);
+      //   } else {
+      //     visibleFrame = (visibleFrame - currentIndex) <= 0
+      //     ? (images.length - 1) - (visibleFrame)
+      //     : (visibleFrame - currentIndex);
+      //   }
+      // }
 
-      console.log('§§', images[visibleFrame]);
-
-      this.setState({ visibleFrame });
+      this.setState({
+        visibleFrame: isSwipingRight
+          ? visibleFrame + 1 >= images.length - 1 ? 0 : visibleFrame + 1
+          : visibleFrame - 1 <= 0 ? images.length - 1 : visibleFrame - 1,
+      });
     }
   }
 
   swiped(e, deltaX, deltaY, absX, absY, velocity) {
-    console.log(e, deltaX, deltaY, absX, absY, velocity);
+    // console.log(e, deltaX, deltaY, absX, absY, velocity);
     // const
   }
 
@@ -88,6 +86,7 @@ class Detail360 extends Component {
     return (
       <Swipeable
         trackMouse
+        delta={80}
         onSwiping={this.swiping}
         // onSwipingLeft={this.swipingLeft}
         onSwiped={this.swiped}
