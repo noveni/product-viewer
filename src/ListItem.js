@@ -2,16 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import Img from './Img';
 
+const ListItemUI = styled.div`
+  display: flex;
+  min-width: 80px;
+  margin: 2px;
+`;
+
 const Button = styled.button`
   border: none;
   background: transparent;
   border-radius: 0;
   padding: 0;
   margin: 0;
-`;
-
-const ListItemUI = styled.div`
-  display: flex;
 `;
 
 const ListItem = ({ item, onChange }) => (

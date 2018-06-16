@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-height: 100vh;
+  height: 100%;
 
   & > * {
     max-height: 100vh;
@@ -27,7 +28,7 @@ const Wrapper = styled.div`
   & > *:first-child {
     flex-grow: 2;
     flex-shrink: 0;
-    height: 100%;
+    height: calc(100% - 80px);
   }
   & > *:nth-child(2) {
     flex-shrink: 0;
@@ -38,6 +39,7 @@ const Wrapper = styled.div`
     display: flex;
     overflow-x: scroll;
     overflow-y: hidden;
+    margin: 8px 32px;
   }
 `;
 
