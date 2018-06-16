@@ -14,6 +14,7 @@ const Button = styled.button`
   border-radius: 0;
   padding: 0;
   margin: 0;
+  width: 100%;
 `;
 
 const ListItem = ({ item, onChange }) => (
