@@ -44,7 +44,8 @@ class Detail360 extends Component {
 
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
     console.log(
-      // 'e', e, '\n',
+      'e', (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
+      || e.pageX, '\n',
       'deltaX', deltaX, '\n',
       'deltaY', deltaY, '\n',
       'absX', absX, '\n',
@@ -52,12 +53,27 @@ class Detail360 extends Component {
       'velocity', velocity, '\n'
     );
     const { item: { images } } = this.props;
-    const { containerLeftOffset, isAnimating } = this.state;
+    const { containerWidth, isAnimating, lastKnownAbsX } = this.state;
 
     if (this.ref && !isAnimating) {
       const visibleFrame = this.state.visibleFrame;
       const isSwipingHorizontaly = Math.abs(deltaX) > 0; // && Math.abs(deltaY) < Math.abs(deltaX);
-      const isSwipingRight = !(deltaX < 0);
+      const theAbsX = Math.round(
+        (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
+        || e.pageX
+      );
+      const isSwipingRight = lastKnownAbsX > theAbsX;
+
+      const expectedIndexDifference = (lastKnownAbsX && (isSwipingRight
+        ? (
+          Math.round(lt(lastKnownAbsX, 0, (window.innerWidth), 0, images.length))
+          - Math.round(lt(theAbsX, 0, (window.innerWidth), 0, images.length))
+        )
+        : (
+          Math.round(lt(theAbsX, 0, (window.innerWidth), 0, images.length))
+          - Math.round(lt(lastKnownAbsX, 0, (window.innerWidth), 0, images.length))
+        )
+      )) || 0;
       /**
        * |<------------container------------->|
        * |                                    |
@@ -117,12 +133,31 @@ class Detail360 extends Component {
       const valueToAddOrSubstract = (
         1
       );
+      let expectedIndex;
+
+      if (isSwipingRight) {
+        expectedIndex = visibleFrame - expectedIndexDifference < 0 ? images.length - 1 : visibleFrame - expectedIndexDifference;
+      } else {
+        expectedIndex = visibleFrame + expectedIndexDifference >= images.length ? 0 : visibleFrame + expectedIndexDifference;
+      }
+
+      // if (expectedIndex < 0) {
+      //   expectedIndex = Math.abs(expectedIndex - images.length);
+      // }
+      // if (expectedIndex >= images.length) {
+      //   expectedIndex -= images.length;
+      // }
+
+      console.log('theAbsX', theAbsX);
+      console.log('expectedindex is', expectedIndex, 'on', images.length, '\n');
 
       this.setState({
+        lastKnownAbsX: theAbsX,
         isAnimating: true,
-        visibleFrame: isSwipingRight
-          ? visibleFrame + 1 >= images.length - 1 ? 0 : visibleFrame + 1
-          : visibleFrame - 1 <= 0 ? images.length - 1 : visibleFrame - 1,
+        // visibleFrame: isSwipingRight
+        //   ? visibleFrame + 1 >= images.length - 1 ? 0 : visibleFrame + 1
+        //   : visibleFrame - 1 <= 0 ? images.length - 1 : visibleFrame - 1,
+        visibleFrame: expectedIndex,
       }, () => {
         clearTimeout(this.timerRef);
         this.timerRef = setTimeout(() => {
