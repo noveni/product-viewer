@@ -7,8 +7,8 @@ import Detail from './Detail';
 import { items as fakeData } from './fakeData';
 
 const OutsideWorld = styled.div`
-  /* width: 500px;
-  height: 600px; */
+  width: 500px;
+  height: 600px;
   max-width: 100vw;
   max-height: 100vh;
   margin: 0 auto;
