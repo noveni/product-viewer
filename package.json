@@ -7,7 +7,8 @@
     "build": "uxi-cli build",
     "lint": "uxi-cli lint",
     "test": "uxi-cli test",
-    "dev": "uxi-cli dev"
+    "dev": "uxi-cli dev",
+    "dev:public": "uxi-cli dev --host 0.0.0.0 --port 3100"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +18,7 @@
     "react-dom": "^16.3.2",
     "react-swipeable": "^4.3.0",
     "styled-components": "^3.2.6",
-    "uxi-cli": "^1.0.70",
+    "uxi-cli": "^1.0.75",
     "whatwg-fetch": "^2.0.4"
   }
 }

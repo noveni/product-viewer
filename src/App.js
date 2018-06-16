@@ -20,6 +20,10 @@ const Wrapper = styled.div`
   max-height: 100vh;
   height: 100%;
 
+  & * {
+    user-select: none;
+  }
+
   & > * {
     max-height: 100vh;
     max-width: 100vw;
@@ -38,6 +42,7 @@ const Wrapper = styled.div`
     align-items: center;
     display: flex;
     overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
     margin: 8px 32px;
   }
