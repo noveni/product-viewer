@@ -1,11 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Img from './Img';
+import RatioBox from './RatioBox';
 
 const DetailUi = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+`;
+
+const DetailUiVideo = DetailUi.extend`
+  max-width: 80vh;
+  margin: 0 auto;
+  @media (min-height: 400) {
+    max-width: 100vh;
+  }
 `;
 
 const Detail = ({ item }) => (
@@ -27,12 +36,21 @@ const Detail360 = ({ item }) => (
 );
 
 const DetailVideo = ({ item }) => (
-  <DetailUi>
+  <DetailUiVideo>
     {
       item && item.iframeSrc &&
-      (<iframe style={{ margin: '0 auto' }} src={item.iframeSrc} title="" />)
-    }
-  </DetailUi>
+      (
+        <RatioBox
+          ratio="16/9"
+          style={{
+            maxHeight: 'calc(100% - 80px)',
+          }}
+        >
+          <iframe style={{ margin: '0 auto', width: '100%', height: '100%' }} src={item.iframeSrc} title="" />
+        </RatioBox>
+      )
+  }
+  </DetailUiVideo>
 );
 
 
