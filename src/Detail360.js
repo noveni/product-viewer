@@ -43,15 +43,15 @@ class Detail360 extends Component {
 
 
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
-    console.log(
-      'e', (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
-      || e.pageX, '\n',
-      'deltaX', deltaX, '\n',
-      'deltaY', deltaY, '\n',
-      'absX', absX, '\n',
-      'absY', absY, '\n',
-      'velocity', velocity, '\n'
-    );
+    // console.log(
+    //   'e', (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
+    //   || e.pageX, '\n',
+    //   'deltaX', deltaX, '\n',
+    //   'deltaY', deltaY, '\n',
+    //   'absX', absX, '\n',
+    //   'absY', absY, '\n',
+    //   'velocity', velocity, '\n'
+    // );
     const { item: { images } } = this.props;
     const { containerWidth, isAnimating, lastKnownAbsX } = this.state;
 
@@ -135,12 +135,10 @@ class Detail360 extends Component {
       );
       let expectedIndex;
       if (!isSwipingRight) {
-        console.log('§§§ isSwipingRight', !isSwipingRight);
         expectedIndex = visibleFrame - expectedIndexDifference < 0
           ? images.length - 1
           : visibleFrame - expectedIndexDifference;
       } else {
-        console.log('§§§ isSwipingleft', isSwipingRight);
         expectedIndex = visibleFrame + expectedIndexDifference >= images.length
           ? 0 + ((visibleFrame + expectedIndexDifference) - images.length)
           : visibleFrame + expectedIndexDifference;
@@ -153,10 +151,6 @@ class Detail360 extends Component {
       //   expectedIndex -= images.length;
       // }
 
-      console.log('§§ theAbsX', theAbsX);
-      console.log('§§ visibleFrame', visibleFrame);
-      console.log('§§ expectedIndexDifference is', expectedIndexDifference, 'on', images.length, '\n');
-      console.log('§§ expectedindex is', expectedIndex, 'on', images.length, '\n');
 
       this.setState({
         lastKnownAbsX: theAbsX,
