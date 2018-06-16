@@ -25,8 +25,8 @@ class Detail360 extends Component {
 
     this.swiping = this.swiping.bind(this);
     this.storeRef = this.storeRef.bind(this);
-    this.swiping = this.swiping.bind(this);
-    // this.swiping = debounce(this.swiping.bind(this), 16);
+    // this.swiping = this.swiping.bind(this);
+    this.swiping = debounce(this.swiping.bind(this), 16);
   }
 
   storeRef(node) {
@@ -64,16 +64,16 @@ class Detail360 extends Component {
       );
       const isSwipingRight = lastKnownAbsX > theAbsX;
 
-      const expectedIndexDifference = (lastKnownAbsX && (isSwipingRight
+      const expectedIndexDifference = (lastKnownAbsX && Math.round(isSwipingRight
         ? (
-          Math.round(lt(lastKnownAbsX, 0, (window.innerWidth), 0, images.length))
-          - Math.round(lt(theAbsX, 0, (window.innerWidth), 0, images.length))
+          lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
+          - lt(theAbsX, 0, (window.innerWidth / 2), 0, images.length)
         )
         : (
-          Math.round(lt(theAbsX, 0, (window.innerWidth), 0, images.length))
-          - Math.round(lt(lastKnownAbsX, 0, (window.innerWidth), 0, images.length))
+          lt(theAbsX, 0, (window.innerWidth / 2), 0, images.length)
+          - lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
         )
-      )) || 0;
+      * 1.2)) || 0;
       /**
        * |<------------container------------->|
        * |                                    |
