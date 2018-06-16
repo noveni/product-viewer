@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Img from './Img';
 
 const Button = styled.button`
   border: none;
@@ -11,17 +12,14 @@ const Button = styled.button`
 
 const ListItemUI = styled.div`
   display: flex;
-  img {
-    width: 100%;
-    height: 100%;
-    max-height: 90px;
-  }
 `;
 
 const ListItem = ({ item, onChange }) => (
   <ListItemUI >
     {item && item.src && (
-      <Button onClick={() => onChange(item.id)}><img src={item.src} alt="" /></Button>
+      <Button onClick={() => onChange(item.id)}>
+        <Img style={{ maxHeight: '80px' }} src={item.src} alt="" />
+      </Button>
     )}
   </ListItemUI>
 );

@@ -1,21 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import Img from './Img';
 
 const DetailUi = styled.div`
+  height: 100%;
+  /* max-height: 100vh;
+  max-width: 100vw; */
   display: flex;
   align-items: center;
-  img {
-    width: 100%;
-    height: 100%;
-    max-height: 400px;
-  }
+  /* img {
+    max-width: 100%;
+    max-height: 100%;
+  } */
 `;
 
 const Details = ({ current }) => (
   <DetailUi>
     {
       current && current.src &&
-      (<img src={current.src} alt="" />)
+      (<Img style={{ margin: '0 auto' }} src={current.src} alt="" />)
     }
   </DetailUi>
 );

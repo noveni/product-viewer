@@ -9,21 +9,46 @@ import { items as fakeData } from './fakeData';
 const OutsideWorld = styled.div`
   width: 500px;
   height: 600px;
+  max-width: 100vw;
+  max-height: 100vh;
+
+  /* width: 100%;
+  height: 100%; */
+
+  margin: 0 auto;
+
+  /* max-height: 100vh; */
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* height: 100%; */
+  max-height: 100vh;
+
+  & > * {
+    max-height: 100vh;
+    max-width: 100vw;
+  }
+
   & > *:first-child {
-    flex-grow: 99;
+    flex-grow: 2;
     flex-shrink: 0;
-    min-height: 200px;
+    height: 100%;
+    /* max-height: 100vh; */
+    /* max-height: calc(100vh - 80px);
+    max-height: calc(100% - 80px); */
   }
   & > *:nth-child(2) {
-    flex-shrink: 99;
-    flex-grow: 0;
-    min-height: 80px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    max-height: 80px;
+    height: 80px;
+    /* max-height: 100vh; */
+    align-items: center;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
   }
 `;
 
@@ -59,13 +84,21 @@ class App extends Component {
 
   render() {
     const { current, items } = this.state;
-    console.log('current', current);
+
     return (
       <OutsideWorld>
         <Wrapper>
-          <Detail current={current} items={items} />
+          <div><Detail current={current} items={items} /></div>
           <div><List onChange={this.handleActiveItemChange} items={items} /></div>
         </Wrapper>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            #root { max-height: 100vh; }
+            html, body { margin: 0 }
+          `,
+          }}
+        />
       </OutsideWorld>
     );
   }
