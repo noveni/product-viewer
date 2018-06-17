@@ -92,11 +92,11 @@ class DetailVideo extends Component {
 
     return (
       <Swipeable
-          onSwiped={this.swiped}
-          style={{ width: '100%' }}
-        >
-          <DetailUiVideo>
-            {
+        onSwiped={this.swiped}
+        style={{ width: 'calc(100% - 6em)' }}
+      >
+        <DetailUiVideo>
+          {
               item && item.iframeSrc &&
               (
                 <RatioBox
@@ -109,8 +109,8 @@ class DetailVideo extends Component {
                 </RatioBox>
               )
             }
-          </DetailUiVideo>
-        </Swipeable>
+        </DetailUiVideo>
+      </Swipeable>
     );
   }
 }
