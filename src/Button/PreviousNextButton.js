@@ -18,6 +18,7 @@ export const PreviousNextButton = Button.extend`
   /* top: 50%;
   transform: translateY(-50%);   */
   &:before {
+    z-index: 1;
     font-size: inherit;
     font-weight: 900;
     color: rgba(128, 128, 128, .5);
