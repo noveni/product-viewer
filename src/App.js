@@ -59,13 +59,33 @@ class App extends Component {
     };
 
     this.handleActiveItemChange = this.handleActiveItemChange.bind(this);
+    this.onNext = this.onNext.bind(this);
+    this.onPrevious = this.onPrevious.bind(this);
   }
 
-  componentDidMount() {
-    // request('someurl')
-    //   .then((res) => {
-    //     this.setState({ items: res });
-    //   });
+  onPrevious() {
+    const { items } = this.props;
+    const { current } = this.state;
+    const currentIndex = items.findIndex(x => x.id === current.id);
+    if (currentIndex) {
+      const previous = items[currentIndex - 1]
+        ? items[currentIndex - 1]
+        : items[items.length - 1];
+
+      this.setState({ current: previous });
+    }
+  }
+  onNext() {
+    const { items } = this.props;
+    const { current } = this.state;
+    const currentIndex = items.findIndex(x => x.id === current.id);
+    if (currentIndex) {
+      const next = items[currentIndex + 1]
+        ? items[currentIndex + 1]
+        : items[0];
+
+      this.setState({ current: next });
+    }
   }
 
   handleActiveItemChange(newActiveElementID) {
@@ -83,7 +103,14 @@ class App extends Component {
     return (
       <OutsideWorld>
         <Wrapper>
-          <div><Detail item={current} items={items} /></div>
+          <div>
+            <Detail
+              item={current}
+              items={items}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          </div>
           <div><List onChange={this.handleActiveItemChange} items={items} /></div>
         </Wrapper>
         <style
