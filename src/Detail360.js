@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Swipeable from 'react-swipeable';
+// import Swipeable from 'react-swipeable';
+import Swipeable from './Swipeable';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import Img from './Img';
@@ -12,6 +13,21 @@ const DetailUi = styled.div`
   user-select: none;
   pointer-events: none;
 `;
+
+const getNormalizedIndex = (i, list) => {
+  if (i < 0) {
+    return (list.length - 1) - i > 0
+      ? list.length - 1 - i
+      : getNormalizedIndex((list.length - 1) - i, list);
+  } else if (i > list.length) {
+    return (i - list.length < list.length - 1)
+      ? i - list.length
+      : getNormalizedIndex(i - list.length, list);
+  } else if (list[i]) {
+    return i;
+  }
+  return 0;
+};
 
 function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; }
 
@@ -43,21 +59,21 @@ class Detail360 extends Component {
 
 
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
-    // console.log(
-    //   'e', (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
-    //   || e.pageX, '\n',
-    //   'deltaX', deltaX, '\n',
-    //   'deltaY', deltaY, '\n',
-    //   'absX', absX, '\n',
-    //   'absY', absY, '\n',
-    //   'velocity', velocity, '\n'
-    // );
+    console.log(
+      // 'e', (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
+      // || e.pageX, '\n',
+      'deltaX', deltaX, '\n',
+      'deltaY', deltaY, '\n',
+      'absX', absX, '\n',
+      'absY', absY, '\n',
+      'velocity', velocity, '\n'
+    );
     const { item: { images } } = this.props;
     const { containerWidth, isAnimating, lastKnownAbsX } = this.state;
 
     if (this.ref && !isAnimating) {
       const visibleFrame = this.state.visibleFrame;
-      const isSwipingHorizontaly = Math.abs(deltaX) > 0; // && Math.abs(deltaY) < Math.abs(deltaX);
+      // const isSwipingHorizontaly = Math.abs(deltaX) > 0; // && Math.abs(deltaY) < Math.abs(deltaX);
       const theAbsX = Math.round(
         (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
         || e.pageX
@@ -130,9 +146,6 @@ class Detail360 extends Component {
         this.setState({ visibleFrame });
       }
 */
-      const valueToAddOrSubstract = (
-        1
-      );
       let expectedIndex;
       if (!isSwipingRight) {
         expectedIndex = visibleFrame - expectedIndexDifference < 0
@@ -143,7 +156,7 @@ class Detail360 extends Component {
           ? 0 + ((visibleFrame + expectedIndexDifference) - images.length)
           : visibleFrame + expectedIndexDifference;
       }
-
+      // expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference);
       // if (expectedIndex < 0) {
       //   expectedIndex = Math.abs(expectedIndex - images.length);
       // }
@@ -175,6 +188,7 @@ class Detail360 extends Component {
 
     return (
       <Swipeable
+        persistEvent
         trackMouse
         delta={Math.round(window.innerWidth / images.length)}
         onSwiping={this.swiping}
