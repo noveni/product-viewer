@@ -15,21 +15,43 @@ const DetailUi = styled.div`
 `;
 
 const getNormalizedIndex = (i, list) => {
+  let res = 0;
   if (i < 0) {
-    return (list.length - 1) - i > 0
-      ? list.length - 1 - i
-      : getNormalizedIndex((list.length - 1) - i, list);
+    console.log('§§', 'smaller than 0');
+    const newValueMaybe = list.length - 1 + i;
+    if (newValueMaybe > 0) {
+      if (newValueMaybe < list.length) {
+        res = newValueMaybe;
+      } else {
+        res = (list.length - 1) - (newValueMaybe % Math.abs(i));
+      }
+    }
+    // res = (list.length - 1) - i > 0
+    //   ? list.length - 1 - i
+    //   : getNormalizedIndex((list.length - 1) - i, list);
   } else if (i > list.length) {
-    return (i - list.length < list.length - 1)
+    console.log('§§', 'bigger than length');
+    res = (i - (list.length - 1) < list.length - 1)
       ? i - list.length
       : getNormalizedIndex(i - list.length, list);
   } else if (list[i]) {
-    return i;
+    console.log('§§', 'is good');
+    res = i;
   }
-  return 0;
+  console.log('§§###', 'getNormalizedIndex:res', res);
+  return res;
 };
 
 function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; }
+
+const getInitialState = () => ({
+  visibleFrame: 0,
+  containerLeftOffset: 0,
+  containerWidth: 0,
+  containerHeight: 0,
+  lastKnownAbsX: null,
+  isAnimating: false,
+});
 
 class Detail360 extends Component {
   constructor(props) {
@@ -57,6 +79,15 @@ class Detail360 extends Component {
     }
   }
 
+  resetState() {
+    this.setState(getInitialState());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.item.id !== nextProps.item.id) {
+      this.resetState();
+    }
+  }
 
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
     console.log(
@@ -148,14 +179,17 @@ class Detail360 extends Component {
 */
       let expectedIndex;
       if (!isSwipingRight) {
-        expectedIndex = visibleFrame - expectedIndexDifference < 0
-          ? images.length - 1
-          : visibleFrame - expectedIndexDifference;
+        expectedIndex = getNormalizedIndex(visibleFrame - expectedIndexDifference, images, true);
+        // expectedIndex = visibleFrame - expectedIndexDifference < 0
+        //   ? images.length - 1
+        //   : visibleFrame - expectedIndexDifference;
       } else {
-        expectedIndex = visibleFrame + expectedIndexDifference >= images.length
-          ? 0 + ((visibleFrame + expectedIndexDifference) - images.length)
-          : visibleFrame + expectedIndexDifference;
+        expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference, images, false);
+        // expectedIndex = visibleFrame + expectedIndexDifference >= images.length
+        //   ? 0 + ((visibleFrame + expectedIndexDifference) - images.length)
+        //   : visibleFrame + expectedIndexDifference;
       }
+
       // expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference);
       // if (expectedIndex < 0) {
       //   expectedIndex = Math.abs(expectedIndex - images.length);
@@ -185,6 +219,10 @@ class Detail360 extends Component {
   render() {
     const { item, item: { images } } = this.props;
     const { visibleFrame } = this.state;
+
+    if (visibleFrame !== undefined && item && item.images && (images[visibleFrame] === undefined)) {
+      throw new Error('baaaaaad');
+    }
 
     return (
       <Swipeable
