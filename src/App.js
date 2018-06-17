@@ -14,6 +14,7 @@ const PreviousNextButton = Button.extend`
   height: 3em;
   /* background: red; */
   height: 100%;
+  max-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,22 +178,16 @@ class App extends Component {
       <OutsideWorld>
         <Wrapper>
           <div style={{ position: 'relative' }}>
-            {
-              // items && items.type !== 'video' &&
-              <PreviousButton onClick={this.onPrevious} itemType={current.type} />
-            }
+            <PreviousButton onClick={this.onPrevious} itemType={current.type} />
             <Detail
               item={current}
               items={items}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />
-            {
-              // items && items.type !== 'video' &&
-              <NextButton onClick={this.onNext} itemType={current.type} />
-            }
+            <NextButton onClick={this.onNext} itemType={current.type} />
           </div>
-          <div><List onChange={this.handleActiveItemChange} items={items} /></div>
+          <div><List onChange={this.handleActiveItemChange} items={items} item={current} /></div>
         </Wrapper>
         <style
           dangerouslySetInnerHTML={{
