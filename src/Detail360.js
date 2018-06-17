@@ -61,7 +61,8 @@ class Detail360 extends Component {
     };
     this.timerRef = null;
 
-    this.swiping = this.swiping.bind(this);
+    // this.swiping = this.swiping.bind(this);
+    this.swiped = this.swiped.bind(this);
     this.storeRef = this.storeRef.bind(this);
     this.swiping = debounce(this.swiping.bind(this), 16);
   }
@@ -87,6 +88,13 @@ class Detail360 extends Component {
     }
   }
 
+  swiped(e, deltaX, deltaY, isFlick, velocity) {
+    console.log('swiped');
+    this.setState({
+      lastKnownAbsX: null,
+    });
+  }
+
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
     console.log(
       'deltaX', deltaX, '\n',
@@ -95,6 +103,7 @@ class Detail360 extends Component {
       'absY', absY, '\n',
       'velocity', velocity, '\n'
     );
+
     const { item: { images } } = this.props;
     const { isAnimating, lastKnownAbsX } = this.state;
 
