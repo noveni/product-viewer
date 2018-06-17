@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Swipeable from './Swipeable';
 import styled from 'styled-components';
 import Img from './Img';
 import RatioBox from './RatioBox';
@@ -24,34 +25,95 @@ const DetailUiVideo = DetailUi.extend`
   }
 `;
 
-
-const Detail = ({ item }) => (
-  <DetailUi>
-    {
-      item && item.src &&
-      (<Img style={{ margin: '0 auto' }} src={item.src} alt="" />)
-    }
-  </DetailUi>
-);
-
-const DetailVideo = ({ item }) => (
-  <DetailUiVideo>
-    {
-      item && item.iframeSrc &&
-      (
-        <RatioBox
-          ratio="16/9"
-          style={{
-            maxHeight: 'calc(100% - 80px)',
-          }}
-        >
-          <iframe src={item.iframeSrc} title="" />
-        </RatioBox>
-      )
+class Detail extends Component {
+  constructor(props) {
+    super(props);
+    this.swiped = this.swiped.bind(this);
   }
-  </DetailUiVideo>
-);
 
+  swiped(e, deltaX, deltaY, isFlick, velocity) {
+    /* Flick support on preview: */
+    const { onPrevious, onNext } = this.props;
+    if (
+      isFlick
+      && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
+    ) {
+      if (deltaX > 0) { // flick right
+        onNext && onNext();
+      } else { // flick right
+        onPrevious && onPrevious();
+      }
+    }
+  }
+
+  render() {
+    const { item } = this.props;
+
+    return (
+      <Swipeable
+        onSwiped={this.swiped}
+        style={{ display: 'flex' }}
+      >
+        <DetailUi>
+          {
+          item && item.src &&
+          (<Img style={{ margin: '0 auto' }} src={item.src} alt="" />)
+        }
+        </DetailUi>
+      </Swipeable>
+    );
+  }
+}
+
+
+class DetailVideo extends Component {
+  constructor(props) {
+    super(props);
+    this.swiped = this.swiped.bind(this);
+  }
+
+  swiped() {
+    /* Flick support on preview: */
+    const { onPrevious, onNext } = this.props;
+    if (
+      isFlick
+      && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
+    ) {
+      if (deltaX > 0) { // flick right
+        onNext && onNext();
+      } else { // flick right
+        onPrevious && onPrevious();
+      }
+    }
+  }
+
+  render() {
+    const { item } = this.props;
+
+    return (
+      <Swipeable
+        onSwiped={this.swiped}
+        style={{ width: '100%' }}
+      >
+        <DetailUiVideo>
+          {
+            item && item.iframeSrc &&
+            (
+              <RatioBox
+                ratio="16/9"
+                style={{
+                  maxHeight: 'calc(100% - 80px)',
+                }}
+              >
+                <iframe src={item.iframeSrc} title="" />
+              </RatioBox>
+            )
+          }
+        </DetailUiVideo>
+      </Swipeable>
+    );
+  }
+}
 
 export default (props) => {
   const { item: { type } } = props;

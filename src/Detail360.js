@@ -86,7 +86,7 @@ class Detail360 extends Component {
       isFlick
       && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
     ) {
-      if (deltaX < 0) { // flick right
+      if (deltaX > 0) { // flick right
         onNext && onNext();
       } else { // flick right
         onPrevious && onPrevious();

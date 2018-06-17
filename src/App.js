@@ -33,6 +33,9 @@ const Wrapper = styled.div`
     flex-grow: 2;
     flex-shrink: 0;
     height: calc(100% - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   & > *:nth-child(2) {
     flex-shrink: 0;
