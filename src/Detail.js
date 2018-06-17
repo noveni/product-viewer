@@ -91,26 +91,23 @@ class DetailVideo extends Component {
     const { item } = this.props;
 
     return (
-      <Swipeable
-        onSwiped={this.swiped}
-        style={{ width: 'calc(100% - 6em)' }}
-      >
+      <div style={{ width: 'calc(100% - 6em)' }}>
         <DetailUiVideo>
           {
-              item && item.iframeSrc &&
-              (
-                <RatioBox
-                  ratio="16/9"
-                  style={{
-                    maxHeight: 'calc(100% - 80px)',
-                  }}
-                >
-                  <iframe src={item.iframeSrc} title="" />
-                </RatioBox>
-              )
-            }
+            item && item.iframeSrc &&
+            (
+              <RatioBox
+                ratio="16/9"
+                style={{
+                  maxHeight: 'calc(100% - 80px)',
+                }}
+              >
+                <iframe src={item.iframeSrc} title="" />
+              </RatioBox>
+            )
+          }
         </DetailUiVideo>
-      </Swipeable>
+      </div>
     );
   }
 }
