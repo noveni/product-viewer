@@ -52,6 +52,7 @@ class Detail extends Component {
     return (
       <Swipeable
         onSwiped={this.swiped}
+        // onSwiping={this.swiping}
         style={{ display: 'flex' }}
       >
         <DetailUi>

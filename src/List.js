@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem';
-// import styled from 'styled-components';
+import { NextButton as ScrollRight } from './Button/NextButton';
+import { PreviousButton as ScrollLeft } from './Button/PreviousButton';
 
-// const ListUi = styled.div`
-//   display: flex;
-// `;
 
 class List extends Component {
   constructor(props) {
     super(props);
 
     this.itemRefs = {};
+    this.onScrollRight = this.onScrollRight.bind(this);
+    this.onScrollLeft = this.onScrollLeft.bind(this);
   }
 
   componentDidUpdate() {
-    console.log('onComponentDidUpdate');
     const { item } = this.props;
-    console.log(this.itemRefs);
     if (this.itemRefs[item.id]) {
       if (this.itemRefs[item.id].scrollIntoViewIfNeeded) {
         this.itemRefs[item.id].scrollIntoViewIfNeeded();
@@ -25,22 +23,40 @@ class List extends Component {
       }
     }
   }
+  onScrollRight() {
+    if (this.wrapperRef) {
+      this.wrapperRef.scrollLeft += 280;
+    }
+  }
+  onScrollLeft() {
+    if (this.wrapperRef) {
+      this.wrapperRef.scrollLeft -= 280;
+    }
+  }
 
   render() {
     const { items, onChange } = this.props;
 
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {
-          items.map(item => (
-            <div ref={(node) => { this.itemRefs[item.id] = node; }} >
-              <ListItem
-                item={item}
-                onChange={onChange}
-              />
+      <div style={{ width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <ScrollLeft onClick={this.onScrollLeft} style={{ fontSize: '2.8em' }} />
+        <div style={{ width: 'calc(100% - 6em)', overflow: 'scroll' }} ref={node => this.wrapperRef = node}>
+          <div style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {
+                items.map(item => (
+                  <div ref={(node) => { this.itemRefs[item.id] = node; }} >
+                    <ListItem
+                      item={item}
+                      onChange={onChange}
+                    />
+                  </div>
+                ))
+              }
             </div>
-          ))
-        }
+          </div>
+        </div>
+        <ScrollRight onClick={this.onScrollRight} style={{ fontSize: '2.8em' }} />
       </div>
     );
   }

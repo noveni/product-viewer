@@ -3,57 +3,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 // import { request } from './utils/request';
 import List from './List';
-import Button from './Button';
+import { NextButton } from './Button/NextButton';
+import { PreviousButton } from './Button/PreviousButton';
 import Detail from './Detail';
 import { items as fakeData } from './fakeData';
-
-const PreviousNextButton = Button.extend`
-  ${({ itemType }) => itemType === 'video' ? 'display: none' : ''};
-  position: absolute;
-  width: 3em;
-  height: 3em;
-  /* background: red; */
-  height: 100%;
-  max-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  outline none;
-  /* top: 50%;
-  transform: translateY(-50%);   */
-  &:before {
-    font-size: 4.2em;
-    font-weight: 900;
-    color: rgba(128, 128, 128, .5);
-    mix-blend-mode: difference;
-  }
-  &:hover:before,
-  &:focus:before {
-    /* outline 1px solid blue; */
-    text-shadow: 0px 0px 12px rgba(30, 30, 30, .9), 0px 1px 3px rgba(30, 30, 30, .3);
-    color: white;
-    /* font-size: 3.8em;
-    font-weight: bold;
-    color: rgba(128, 128, 128, .85);
-    mix-blend-mode: normal; */
-  }
-`;
-
-const PreviousButton = PreviousNextButton.extend`
-  left: 0;
-  &:before {
-    content: '⟨';
-  }
-`;
-
-const NextButton = PreviousNextButton.extend`
-  right: 0;
-  &:before {
-    content: '⟩';
-  }
-`;
 
 const OutsideWorld = styled.div`
   width: 500px;
@@ -93,10 +46,9 @@ const Wrapper = styled.div`
     height: 80px;
     align-items: center;
     display: flex;
-    overflow-x: scroll;
+    /* overflow-x: scroll; */
     -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
-    margin: 8px 32px;
   }
 `;
 
@@ -187,7 +139,12 @@ class App extends Component {
             />
             <NextButton onClick={this.onNext} itemType={current.type} />
           </div>
-          <div><List onChange={this.handleActiveItemChange} items={items} item={current} /></div>
+
+          {/* this div has overflow-x: scroll */}
+          <div>
+            <List onChange={this.handleActiveItemChange} items={items} item={current} />
+          </div>
+
         </Wrapper>
         <style
           dangerouslySetInnerHTML={{
