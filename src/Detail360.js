@@ -46,9 +46,6 @@ function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; }
 
 const getInitialState = () => ({
   visibleFrame: 0,
-  containerLeftOffset: 0,
-  containerWidth: 0,
-  containerHeight: 0,
   lastKnownAbsX: null,
   isAnimating: false,
 });
@@ -61,7 +58,6 @@ class Detail360 extends Component {
     };
     this.timerRef = null;
 
-    // this.swiping = this.swiping.bind(this);
     this.swiped = this.swiped.bind(this);
     this.storeRef = this.storeRef.bind(this);
     this.swiping = debounce(this.swiping.bind(this), 16);
@@ -70,11 +66,6 @@ class Detail360 extends Component {
   storeRef(node) {
     if (node) {
       this.ref = node;
-      this.setState({
-        containerLeftOffset: node.getBoundingClientRect().left,
-        containerWidth: node.getBoundingClientRect().width,
-        containerHeight: node.getBoundingClientRect().height,
-      });
     }
   }
 
