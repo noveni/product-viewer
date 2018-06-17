@@ -10,7 +10,7 @@
     "dev": "uxi-cli dev",
     "dev:public": "uxi-cli dev --host 0.0.0.0 --port 3100"
   },
-  "author": "",
+  "author": "denisflorkin@gmail.com",
   "license": "ISC",
   "dependencies": {
     "lodash.debounce": "^4.0.8",
