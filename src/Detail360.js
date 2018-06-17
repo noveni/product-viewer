@@ -4,14 +4,24 @@ import Swipeable from './Swipeable';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import Img from './Img';
+import Rotation360deg from './icons/Rotation360deg';
 
 const DetailUi = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  position: relative;
 
   user-select: none;
   pointer-events: none;
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  fill: rgba(128, 128, 128, .5);
+  mix-blend-mode: exclusion;
 `;
 
 const getNormalizedIndex = (i, list) => {
@@ -177,9 +187,12 @@ class Detail360 extends Component {
         <DetailUi>
           {
             item && item.images &&
-            (<Img style={{ margin: '0 auto' }} src={item.images[visibleFrame]} alt="" />)
+              (
+              <Img style={{ margin: '0 auto' }} src={item.images[visibleFrame]} alt="" />
+              )
           }
         </DetailUi>
+        <IconWrapper><Rotation360deg /></IconWrapper>
       </Swipeable>
     );
   }

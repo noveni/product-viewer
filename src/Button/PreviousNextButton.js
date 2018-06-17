@@ -21,7 +21,7 @@ export const PreviousNextButton = Button.extend`
     font-size: inherit;
     font-weight: 900;
     color: rgba(128, 128, 128, .5);
-    mix-blend-mode: difference;
+    mix-blend-mode: exclusion;
   }
   &:hover:before,
   &:focus:before {
