@@ -72,7 +72,7 @@ class DetailVideo extends Component {
     this.swiped = this.swiped.bind(this);
   }
 
-  swiped() {
+  swiped(e, deltaX, deltaY, isFlick, velocity) {
     /* Flick support on preview: */
     const { onPrevious, onNext } = this.props;
     if (
@@ -92,25 +92,25 @@ class DetailVideo extends Component {
 
     return (
       <Swipeable
-        onSwiped={this.swiped}
-        style={{ width: '100%' }}
-      >
-        <DetailUiVideo>
-          {
-            item && item.iframeSrc &&
-            (
-              <RatioBox
-                ratio="16/9"
-                style={{
-                  maxHeight: 'calc(100% - 80px)',
-                }}
-              >
-                <iframe src={item.iframeSrc} title="" />
-              </RatioBox>
-            )
-          }
-        </DetailUiVideo>
-      </Swipeable>
+          onSwiped={this.swiped}
+          style={{ width: '100%' }}
+        >
+          <DetailUiVideo>
+            {
+              item && item.iframeSrc &&
+              (
+                <RatioBox
+                  ratio="16/9"
+                  style={{
+                    maxHeight: 'calc(100% - 80px)',
+                  }}
+                >
+                  <iframe src={item.iframeSrc} title="" />
+                </RatioBox>
+              )
+            }
+          </DetailUiVideo>
+        </Swipeable>
     );
   }
 }
