@@ -1,7 +1,7 @@
 
 
 ## React Product Viewer
-Work in progree: visit github repo
+Work in progree: visit [github repo](https://github.com/noveni/product-viewer)
 
 
 ### how to run:
