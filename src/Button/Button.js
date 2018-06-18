@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const Button = styled.button`
+const Button = styled.button.attrs({
+  onMouseOut: () => function onMouseOut(e) {
+    e.target.blur();
+  },
+})`
   border: none;
   background: transparent;
   border-radius: 0;
