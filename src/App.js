@@ -91,7 +91,7 @@ class App extends Component {
     }
   }
 
-  handleActiveItemChange(newActiveElementID, cb) {
+  handleActiveItemChange(newActiveElementID) {
     const current = (
       this.state.items.find(x => x.id === newActiveElementID)
       || this.state.current

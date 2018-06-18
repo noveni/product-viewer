@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "uxi-cli build",
-    "lint": "uxi-cli lint ./src",
+    "lint": "uxi-cli lint './src  --quiet'",
+    "lint:verbose": "uxi-cli lint ./src",
     "test": "uxi-cli test",
     "dev": "uxi-cli dev",
     "dev:public": "uxi-cli dev --host 0.0.0.0 --port 3100"
@@ -13,6 +14,7 @@
   "author": "denisflorkin@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "detect-passive-events": "^1.0.4",
     "lodash.debounce": "^4.0.8",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

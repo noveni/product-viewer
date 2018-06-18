@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Swipeable from './Swipeable';
 import styled from 'styled-components';
+import Swipeable from './Swipeable';
 import Img from './Img';
 import RatioBox from './RatioBox';
 import Detail360 from './Detail360';
@@ -31,7 +31,7 @@ class Detail extends Component {
     this.swiped = this.swiped.bind(this);
   }
 
-  swiped(e, deltaX, deltaY, isFlick, velocity) {
+  swiped(e, deltaX, deltaY, isFlick/* , velocity */) {
     /* Flick support on preview: */
     const { onPrevious, onNext } = this.props;
     if (
@@ -76,7 +76,7 @@ class DetailVideo extends Component {
     this.swiped = this.swiped.bind(this);
   }
 
-  swiped(e, deltaX, deltaY, isFlick, velocity) {
+  swiped(e, deltaX, deltaY, isFlick/* , velocity */) {
     /* Flick support on preview: */
     const { onPrevious, onNext } = this.props;
     if (
@@ -84,9 +84,13 @@ class DetailVideo extends Component {
       && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
     ) {
       if (deltaX > 0) { // flick right
-        onNext && onNext();
+        if (onNext) {
+          onNext();
+        }
       } else { // flick right
-        onPrevious && onPrevious();
+        if (onPrevious) { // eslint-disable-line no-lonely-if
+          onPrevious();
+        }
       }
     }
   }

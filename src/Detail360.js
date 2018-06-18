@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import Swipeable from 'react-swipeable';
-import Swipeable from './Swipeable';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import Img from './Img';
+import Swipeable from './Swipeable';
 import Rotation360deg from './icons/Rotation360deg';
 
 const DetailUi = styled.div`
@@ -27,8 +27,7 @@ const IconWrapper = styled.div`
 const getNormalizedIndex = (i, list) => {
   let res = 0;
   if (i < 0) {
-    console.log('§§', 'smaller than 0');
-    const newValueMaybe = list.length - 1 + i;
+    const newValueMaybe = (list.length - 1) + i;
     if (newValueMaybe > 0) {
       if (newValueMaybe < list.length) {
         res = newValueMaybe;
@@ -40,19 +39,16 @@ const getNormalizedIndex = (i, list) => {
     //   ? list.length - 1 - i
     //   : getNormalizedIndex((list.length - 1) - i, list);
   } else if (i > list.length) {
-    console.log('§§', 'bigger than length');
     res = (i - (list.length - 1) < list.length - 1)
       ? i - list.length
       : getNormalizedIndex(i - list.length, list);
   } else if (list[i]) {
-    console.log('§§', 'is good');
     res = i;
   }
-  console.log('§§###', 'getNormalizedIndex:res', res);
   return res;
 };
 
-function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; }
+function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
 
 const getInitialState = () => ({
   visibleFrame: 0,
@@ -73,6 +69,12 @@ class Detail360 extends Component {
     this.swiping = debounce(this.swiping.bind(this), 16);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.item.id !== nextProps.item.id) {
+      this.resetState();
+    }
+  }
+
   storeRef(node) {
     if (node) {
       this.ref = node;
@@ -83,13 +85,8 @@ class Detail360 extends Component {
     this.setState(getInitialState());
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.item.id !== nextProps.item.id) {
-      this.resetState();
-    }
-  }
-
-  swiped(e, deltaX, deltaY, isFlick, velocity) {
+  swiped(e, deltaX, deltaY, isFlick /* , velocity */) {
+    console.log('swipped', 'cleaning lastKnownAbsX');
     /* Flick support on preview: */
     const { onPrevious, onNext } = this.props;
     if (
@@ -113,7 +110,7 @@ class Detail360 extends Component {
     });
   }
 
-  swiping(e, deltaX, deltaY, absX, absY, velocity) {
+  swiping(e/* , deltaX, deltaY, absX, absY, velocity */) {
     const { item: { images } } = this.props;
     const { isAnimating, lastKnownAbsX } = this.state;
 

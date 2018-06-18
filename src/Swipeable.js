@@ -1,6 +1,6 @@
 /* originally: https://raw.githubusercontent.com/dogfessional/react-swipeable/master/src/Swipeable.js */
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 import DetectPassiveEvents from 'detect-passive-events';
 /* eslint-disable */
 function getInitialState() {
@@ -53,7 +53,6 @@ function calculatePos(e, state) {
   return { deltaX, deltaY, absX, absY, velocity };
 }
 
-/* eslint-enable */
 class Swipeable extends React.Component {
   constructor(props, context) {
     super(props, context);
