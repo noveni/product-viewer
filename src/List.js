@@ -40,7 +40,7 @@ class List extends Component {
     return (
       <div style={{ width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <ScrollLeft onClick={this.onScrollLeft} style={{ fontSize: '2.8em' }} />
-        <div style={{ width: 'calc(100% - 6em)', overflow: 'scroll' }} ref={node => this.wrapperRef = node}>
+        <div style={{ width: 'calc(100% - 6em)', overflow: 'scroll' }} ref={(node) => { this.wrapperRef = node; }}>
           <div style={{ position: 'relative' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {

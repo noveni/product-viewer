@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const Rotation360deg = props => (
   <svg
     width="50px"

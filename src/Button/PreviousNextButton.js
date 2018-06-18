@@ -6,7 +6,6 @@ export const PreviousNextButton = Button.extend`
   font-size: 4.2em;
   width: 1em;
   height: 1em;
-  /* background: red; */
   height: 100%;
   max-height: 200px;
   display: flex;
@@ -15,8 +14,6 @@ export const PreviousNextButton = Button.extend`
   cursor: pointer;
 
   outline none;
-  /* top: 50%;
-  transform: translateY(-50%);   */
   &:before {
     z-index: 1;
     font-size: inherit;
@@ -26,13 +23,8 @@ export const PreviousNextButton = Button.extend`
   }
   &:hover:before,
   &:focus:before {
-    /* outline 1px solid blue; */
     text-shadow: 0px 0px 12px rgba(30, 30, 30, .9), 0px 1px 3px rgba(30, 30, 30, .3);
     color: white;
-    /* font-size: 3.8em;
-    font-weight: bold;
-    color: rgba(128, 128, 128, .85);
-    mix-blend-mode: normal; */
   }
 `;
 

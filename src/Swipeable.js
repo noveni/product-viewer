@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DetectPassiveEvents from 'detect-passive-events';
-
+/* eslint-disable */
 function getInitialState() {
   return {
     x: null,
@@ -53,6 +53,7 @@ function calculatePos(e, state) {
   return { deltaX, deltaY, absX, absY, velocity };
 }
 
+/* eslint-enable */
 class Swipeable extends React.Component {
   constructor(props, context) {
     super(props, context);

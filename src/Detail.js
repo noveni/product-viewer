@@ -39,9 +39,13 @@ class Detail extends Component {
       && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
     ) {
       if (deltaX > 0) { // flick right
-        onNext && onNext();
+        if (onNext) {
+          onNext();
+        }
       } else { // flick right
-        onPrevious && onPrevious();
+        if (onPrevious) { // eslint-disable-line no-lonely-if
+          onPrevious();
+        }
       }
     }
   }
@@ -52,7 +56,6 @@ class Detail extends Component {
     return (
       <Swipeable
         onSwiped={this.swiped}
-        // onSwiping={this.swiping}
         style={{ display: 'flex' }}
       >
         <DetailUi>

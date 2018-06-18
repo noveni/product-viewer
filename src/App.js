@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-// import { request } from './utils/request';
 import List from './List';
 import { NextButton } from './Button/NextButton';
 import { PreviousButton } from './Button/PreviousButton';
@@ -14,6 +13,7 @@ const OutsideWorld = styled.div`
   max-width: 100vw;
   max-height: 100vh;
   margin: 0 auto;
+  border: 1px solid lightgrey;
 `;
 
 const Wrapper = styled.div`
@@ -46,7 +46,6 @@ const Wrapper = styled.div`
     height: 80px;
     align-items: center;
     display: flex;
-    /* overflow-x: scroll; */
     -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
   }
@@ -58,7 +57,6 @@ class App extends Component {
 
     this.state = {
       items: this.props.items,
-      // items: [],
       current: this.props.items[0],
     };
 
@@ -72,20 +70,10 @@ class App extends Component {
     const { current } = this.state;
     const currentIndex = items.findIndex(x => x.id === current.id);
     if (currentIndex > -1) {
-      // const previous = items[currentIndex - 1]
-      //   ? items[currentIndex - 1]
-      //   : items[items.length - 1];
-
       if (items[currentIndex - 1]) {
-        this.handleActiveItemChange(
-          items[currentIndex - 1].id,
-          () => { this.setState({ changedInThisLoop: false }); }
-        );
+        this.handleActiveItemChange(items[currentIndex - 1].id);
       } else {
-        this.handleActiveItemChange(
-          items[items.length - 1].id,
-          () => { this.setState({ changedInThisLoop: false }); }
-        );
+        this.handleActiveItemChange(items[items.length - 1].id);
       }
     }
   }
@@ -96,15 +84,9 @@ class App extends Component {
     const currentIndex = items.findIndex(x => x.id === current.id);
     if (currentIndex > -1) {
       if (items[currentIndex + 1]) {
-        this.handleActiveItemChange(
-          items[currentIndex + 1].id,
-          () => { this.setState({ changedInThisLoop: false }); }
-        );
+        this.handleActiveItemChange(items[currentIndex + 1].id);
       } else {
-        this.handleActiveItemChange(
-          items[0].id,
-          () => { this.setState({ changedInThisLoop: false }); }
-        );
+        this.handleActiveItemChange(items[0].id);
       }
     }
   }
@@ -115,9 +97,7 @@ class App extends Component {
       || this.state.current
     );
 
-    this.setState(
-      { current, changedInThisLoop: true }, cb
-    );
+    this.setState({ current });
   }
 
   render() {

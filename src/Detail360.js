@@ -97,27 +97,23 @@ class Detail360 extends Component {
       && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
     ) {
       if (deltaX > 0) { // flick right
-        onNext && onNext();
+        if (onNext) {
+          onNext();
+        }
       } else { // flick right
-        onPrevious && onPrevious();
+        if (onPrevious) { // eslint-disable-line no-lonely-if
+          onPrevious();
+        }
       }
     }
 
-    // Required fro "continous scrolling":
+    // Required for "continous scrolling":
     this.setState({
       lastKnownAbsX: null,
     });
   }
 
   swiping(e, deltaX, deltaY, absX, absY, velocity) {
-    console.log(
-      'deltaX', deltaX, '\n',
-      'deltaY', deltaY, '\n',
-      'absX', absX, '\n',
-      'absY', absY, '\n',
-      'velocity', velocity, '\n'
-    );
-
     const { item: { images } } = this.props;
     const { isAnimating, lastKnownAbsX } = this.state;
 
