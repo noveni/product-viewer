@@ -181,6 +181,7 @@ class Detail360 extends Component {
           justifyContent: 'center',
           alignItems: 'center',
           height: '100%',
+          width: '100%',
         }}
         innerRef={this.storeRef}
       >
