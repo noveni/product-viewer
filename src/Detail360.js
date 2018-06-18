@@ -120,6 +120,13 @@ class Detail360 extends Component {
         (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
         || e.pageX
       );
+
+      // if (!lastKnownAbsX) {
+      //   return this.setState({
+      //     lastKnownAbsX: theAbsX,
+      //   });
+      // }
+
       const isSwipingRight = lastKnownAbsX > theAbsX;
 
       const expectedIndexDifference = (lastKnownAbsX && Math.round(isSwipingRight
