@@ -6,7 +6,7 @@ import RatioBox from './RatioBox';
 import Detail360 from './Detail360';
 
 const DetailUi = styled.div`
-  height: 100%;
+  max-height: 100%;
   display: flex;
   align-items: center;
 `;
@@ -60,9 +60,9 @@ class Detail extends Component {
       >
         <DetailUi>
           {
-          item && item.src &&
+            item && item.src &&
           (<Img style={{ margin: '0 auto' }} src={item.src} alt="" />)
-        }
+          }
         </DetailUi>
       </Swipeable>
     );
