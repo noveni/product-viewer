@@ -42,7 +42,7 @@ class List extends Component {
         <ScrollLeft onClick={this.onScrollLeft} style={{ fontSize: '2.8em' }} />
         <div style={{ width: 'calc(100% - 6em)', overflow: 'scroll' }} ref={(node) => { this.wrapperRef = node; }}>
           <div style={{ position: 'relative' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'stretch' }}>
               {
                 items.map(item => (
                   <div ref={(node) => { this.itemRefs[item.id] = node; }} >

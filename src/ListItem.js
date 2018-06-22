@@ -9,8 +9,7 @@ import Img from './Img';
 
 const IconWrapper = styled.div`
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 0;
   svg { fill: rgba(128, 128, 128, .5); }
   mix-blend-mode: exclusion;
 `;
@@ -29,9 +28,9 @@ const ListItem360 = ({ item, onChange }) => (
     {item && item.images && item.images[0] && (
       <Button onClick={() => onChange(item.id)}>
         <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
+        <IconWrapper><Thumb360 width="100%" height="auto" /></IconWrapper>
       </Button>
     )}
-    <IconWrapper><Thumb360 width="100%" height="auto" /></IconWrapper>
   </ListItemUi>
 );
 
@@ -39,10 +38,10 @@ const ListItemVideo = ({ item, onChange }) => (
   <ListItemUi >
     {item && item.iframeSrc && (
       <Button onClick={() => onChange(item.id)}>
+        <IconWrapper><ThumbVideo width="100%" height="auto" /></IconWrapper>
         VIDEO
       </Button>
     )}
-    <IconWrapper><ThumbVideo width="100%" height="auto" /></IconWrapper>
   </ListItemUi>
 );
 
