@@ -24,6 +24,8 @@ const IconWrapper = styled.div `
   mix-blend-mode: exclusion;
 `;
 
+function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
+
 const getNormalizedIndex = (i, list) => {
   let res = 0;
   if (i < 0) {
@@ -65,7 +67,7 @@ class Detail360 extends Component {
     this.swiped = this.swiped.bind(this);
     // this.storeRef = this.storeRef.bind(this);
     // this.swiping = debounce(this.swiping.bind(this), 16);
-    this.swiping = throttle(this.swiping.bind(this), 64, { trailing: false });
+    this.swiping = throttle(this.swiping.bind(this), 16, { trailing: false });
   }
 
   resetState() {
@@ -85,22 +87,39 @@ class Detail360 extends Component {
     // console.log(deltaX, absX, velocity);
     // console.log("You're Swiping...", e, deltaX, deltaY, absX, absY, velocity);
 
-    const isSwipingLeft = (deltaX > 0 && absX >= lastKnownAbsX) || (deltaX < 0 && absX <= lastKnownAbsX);
-    const isSwipingRight = (deltaX < 0 && absX >= lastKnownAbsX) || (deltaX > 0 && absX <= lastKnownAbsX);
+    if (lastKnownAbsX === null) {
+      return this.setState({
+        lastKnownAbsX: absX,
+      });
+    }
+    const isSwipingLeft = (deltaX > 0 && absX > lastKnownAbsX) || (deltaX < 0 && absX < lastKnownAbsX);
+    const isSwipingRight = (deltaX < 0 && absX > lastKnownAbsX) || (deltaX > 0 && absX < lastKnownAbsX);
 
-    console.log(deltaX, absX, lastKnownAbsX);
+
+    const expectedIndexDifference = (lastKnownAbsX && Math.round(lastKnownAbsX > absX ?
+      (
+        lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length) -
+        lt(absX, 0, (window.innerWidth / 2), 0, images.length)
+      ) :
+      (
+        lt(absX, 0, (window.innerWidth / 2), 0, images.length) -
+        lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
+      ) *
+      1.2)) || 0;
+
+    // console.log(deltaX, absX, lastKnownAbsX);
     let expectedIndex;
     if (isSwipingLeft) {
-      console.log('on va a gauche');
-      expectedIndex = getNormalizedIndex(visibleFrame + 2, images, false);
+      // console.log('on va a gauche');
+      expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference, images, false);
     } else if (isSwipingRight) {
-      console.log('on va a droite');
-      expectedIndex = getNormalizedIndex(visibleFrame - 2, images, true);
+      // console.log('on va a droite');
+      expectedIndex = getNormalizedIndex(visibleFrame - expectedIndexDifference, images, true);
     } else {
-      console.log('on stand by');
+      // console.log('on stand by');
       expectedIndex = visibleFrame;
     }
-    console.log('visibleFrame', visibleFrame, 'expectedIndex', expectedIndex);
+    // console.log('visibleFrame', visibleFrame, 'expectedIndex', expectedIndex);
     this.setState({
       lastKnownAbsX: absX,
       isAnimating: true,
