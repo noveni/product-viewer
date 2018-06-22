@@ -130,7 +130,7 @@ class App extends Component {
           dangerouslySetInnerHTML={{
             __html: `
             #root { max-height: 100vh; }
-            html, body { margin: 0 }
+            html, body { margin: 0; overflow-x: hidden; }
           `,
           }}
         />

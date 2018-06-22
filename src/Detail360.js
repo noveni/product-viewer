@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-// import Swipeable from 'react-swipeable';
-import debounce from 'lodash.debounce';
+import Swipeable from 'react-swipeable';
+import { throttle } from 'lodash';
 import styled from 'styled-components';
 import Img from './Img';
-import Swipeable from './Swipeable';
+// import Swipeable from './Swipeable';
 import Rotation360deg from './icons/Rotation360deg';
 
 const DetailUi = styled.div`
@@ -16,7 +16,7 @@ const DetailUi = styled.div`
   pointer-events: none;
 `;
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.div `
   position: absolute;
   top: 16px;
   right: 16px;
@@ -39,16 +39,14 @@ const getNormalizedIndex = (i, list) => {
     //   ? list.length - 1 - i
     //   : getNormalizedIndex((list.length - 1) - i, list);
   } else if (i > list.length) {
-    res = (i - (list.length - 1) < list.length - 1)
-      ? i - list.length
-      : getNormalizedIndex(i - list.length, list);
+    res = (i - (list.length - 1) < list.length - 1) ?
+      i - list.length :
+      getNormalizedIndex(i - list.length, list);
   } else if (list[i]) {
     res = i;
   }
   return res;
 };
-
-function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
 
 const getInitialState = () => ({
   visibleFrame: 0,
@@ -65,101 +63,50 @@ class Detail360 extends Component {
     this.timerRef = null;
 
     this.swiped = this.swiped.bind(this);
-    this.storeRef = this.storeRef.bind(this);
-    this.swiping = debounce(this.swiping.bind(this), 16);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.item.id !== nextProps.item.id) {
-      this.resetState();
-    }
-  }
-
-  storeRef(node) {
-    if (node) {
-      this.ref = node;
-    }
+    // this.storeRef = this.storeRef.bind(this);
+    // this.swiping = debounce(this.swiping.bind(this), 16);
+    this.swiping = throttle(this.swiping.bind(this), 64, { trailing: false });
   }
 
   resetState() {
     this.setState(getInitialState());
   }
 
-  swiped(e, deltaX, deltaY, isFlick /* , velocity */) {
-    console.log('swipped', 'cleaning lastKnownAbsX');
-    /* Flick support on preview: */
-    const { onPrevious, onNext } = this.props;
-    if (
-      isFlick
-      && Math.abs(deltaX) > Math.abs(deltaY) // horizontal
-    ) {
-      if (deltaX > 0) { // flick right
-        if (onNext) {
-          onNext();
-        }
-      } else { // flick right
-        if (onPrevious) { // eslint-disable-line no-lonely-if
-          onPrevious();
-        }
-      }
-    }
-
-    // Required for "continous scrolling":
+  swiped(e, deltaX, deltaY, isFlick, velocity) {
     this.setState({
       lastKnownAbsX: null,
     });
   }
 
-  swiping(e/* , deltaX, deltaY, absX, absY, velocity */) {
+  swiping(e, deltaX, deltaY, absX, absY, velocity) {
     const { item: { images } } = this.props;
     const { isAnimating, lastKnownAbsX } = this.state;
+    const visibleFrame = this.state.visibleFrame;
+    // console.log(deltaX, absX, velocity);
+    // console.log("You're Swiping...", e, deltaX, deltaY, absX, absY, velocity);
 
-    if (this.ref && !isAnimating) {
-      const visibleFrame = this.state.visibleFrame;
-      const theAbsX = Math.round(
-        (e.targetTouches && e.targetTouches.length && e.targetTouches[0].pageX)
-        || e.pageX
-      );
+    const isSwipingLeft = (deltaX > 0 && absX >= lastKnownAbsX) || (deltaX < 0 && absX <= lastKnownAbsX);
+    const isSwipingRight = (deltaX < 0 && absX >= lastKnownAbsX) || (deltaX > 0 && absX <= lastKnownAbsX);
 
-      // if (!lastKnownAbsX) {
-      //   return this.setState({
-      //     lastKnownAbsX: theAbsX,
-      //   });
-      // }
-
-      const isSwipingRight = lastKnownAbsX > theAbsX;
-
-      const expectedIndexDifference = (lastKnownAbsX && Math.round(isSwipingRight
-        ? (
-          lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
-          - lt(theAbsX, 0, (window.innerWidth / 2), 0, images.length)
-        )
-        : (
-          lt(theAbsX, 0, (window.innerWidth / 2), 0, images.length)
-          - lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
-        )
-      * 1.2)) || 0;
-
-      let expectedIndex;
-      if (!isSwipingRight) {
-        expectedIndex = getNormalizedIndex(visibleFrame - expectedIndexDifference, images, true);
-      } else {
-        expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference, images, false);
-      }
-
-      this.setState({
-        lastKnownAbsX: theAbsX,
-        isAnimating: true,
-        visibleFrame: expectedIndex,
-      }, () => {
-        clearTimeout(this.timerRef);
-        this.timerRef = setTimeout(() => {
-          this.setState({ isAnimating: false });
-        }, 16);
-      });
+    console.log(deltaX, absX, lastKnownAbsX);
+    let expectedIndex;
+    if (isSwipingLeft) {
+      console.log('on va a gauche');
+      expectedIndex = getNormalizedIndex(visibleFrame + 2, images, false);
+    } else if (isSwipingRight) {
+      console.log('on va a droite');
+      expectedIndex = getNormalizedIndex(visibleFrame - 2, images, true);
+    } else {
+      console.log('on stand by');
+      expectedIndex = visibleFrame;
     }
+    console.log('visibleFrame', visibleFrame, 'expectedIndex', expectedIndex);
+    this.setState({
+      lastKnownAbsX: absX,
+      isAnimating: true,
+      visibleFrame: expectedIndex,
+    });
   }
-
 
   render() {
     const { item, item: { images } } = this.props;
@@ -171,9 +118,9 @@ class Detail360 extends Component {
 
     return (
       <Swipeable
-        persistEvent
         trackMouse
         delta={Math.round(window.innerWidth / images.length)}
+        preventDefaultTouchmoveEvent
         onSwiping={this.swiping}
         onSwiped={this.swiped}
         style={{
@@ -183,13 +130,12 @@ class Detail360 extends Component {
           height: '100%',
           width: '100%',
         }}
-        innerRef={this.storeRef}
       >
         <DetailUi>
           {
             item && item.images &&
               (
-              <Img style={{ margin: '0 auto' }} src={item.images[visibleFrame]} alt="" />
+                <Img style={{ margin: '0 auto' }} src={item.images[visibleFrame]} alt="" />
               )
           }
         </DetailUi>
