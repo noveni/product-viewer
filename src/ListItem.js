@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ListItemUi from './ListItemUi';
 import Button from './Button/Button';
 import Rotation360deg from './icons/Rotation360deg';
+import Thumb360 from './icons/Thumb360';
+import ThumbVideo from './icons/ThumbVideo';
 import Img from './Img';
 
 const IconWrapper = styled.div`
@@ -25,11 +27,11 @@ const ListItem = ({ item, onChange }) => (
 const ListItem360 = ({ item, onChange }) => (
   <ListItemUi className=".cd-product-viewer-wrapper" >
     {item && item.images && item.images[0] && (
-    <Button onClick={() => onChange(item.id)}>
-      <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
-    </Button>
+      <Button onClick={() => onChange(item.id)}>
+        <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
+      </Button>
     )}
-    <IconWrapper><Rotation360deg width="28px" height="28px" /></IconWrapper>
+    <IconWrapper><Thumb360 width="100%" height="auto" /></IconWrapper>
   </ListItemUi>
 );
 
@@ -40,6 +42,7 @@ const ListItemVideo = ({ item, onChange }) => (
         VIDEO
       </Button>
     )}
+    <IconWrapper><ThumbVideo width="100%" height="auto" /></IconWrapper>
   </ListItemUi>
 );
 
