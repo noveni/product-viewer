@@ -10,8 +10,15 @@ import Img from './Img';
 const IconWrapper = styled.div`
   position: absolute;
   top: 0;
-  svg { fill: rgba(128, 128, 128, .5); }
-  mix-blend-mode: exclusion;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    fill: rgba(128, 128, 128);
+    /* width: 90%; */
+    margin: 0 auto;
+  }
+  /* mix-blend-mode: exclusion; */
 `;
 
 const ListItem = ({ item, onChange }) => (
@@ -27,7 +34,7 @@ const ListItem360 = ({ item, onChange }) => (
   <ListItemUi className=".cd-product-viewer-wrapper" >
     {item && item.images && item.images[0] && (
       <Button onClick={() => onChange(item.id)}>
-        <Img style={{ maxHeight: '80px' }} src={item.images[0]} alt="" />
+        <Img style={{ maxHeight: '80px', transform: 'scale(0.65)', transformOrigin: 'center center' }} src={item.images[0]} alt="" />
         <IconWrapper><Thumb360 width="100%" height="auto" /></IconWrapper>
       </Button>
     )}
