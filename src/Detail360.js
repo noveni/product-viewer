@@ -69,6 +69,11 @@ class Detail360 extends Component {
     // this.swiping = debounce(this.swiping.bind(this), 16);
     this.swiping = throttle(this.swiping.bind(this), 16, { trailing: false });
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.item.id !== this.props.item.id) {
+      this.resetState();
+    }
+  }
 
   resetState() {
     this.setState(getInitialState());
