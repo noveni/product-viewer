@@ -45,7 +45,10 @@ class List extends Component {
             <div style={{ display: 'flex', alignItems: 'stretch' }}>
               {
                 items.map(item => (
-                  <div ref={(node) => { this.itemRefs[item.id] = node; }} >
+                  <div
+                    ref={(node) => { this.itemRefs[item.id] = node; }}
+                    style={{ margin: '0 2px' }}
+                  >
                     <ListItem
                       item={item}
                       onChange={onChange}
