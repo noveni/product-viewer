@@ -46,7 +46,6 @@ const ListItemVideo = ({ item, onChange }) => (
     {item && item.iframeSrc && (
       <Button onClick={() => onChange(item.id)}>
         <IconWrapper><ThumbVideo width="100%" height="auto" /></IconWrapper>
-        VIDEO
       </Button>
     )}
   </ListItemUi>
