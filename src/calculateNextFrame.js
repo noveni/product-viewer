@@ -20,7 +20,7 @@ const getNormalizedIndex = (i, list) => {
   return res;
 };
 
-function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
+export function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
 
 export function calculateNextFrame(
   deltaX,

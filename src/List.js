@@ -9,8 +9,8 @@ class List extends Component {
     super(props);
 
     this.itemRefs = {};
-    this.onScrollRight = this.onScrollRight.bind(this);
-    this.onScrollLeft = this.onScrollLeft.bind(this);
+    // this.onScrollRight = this.onScrollRight.bind(this);
+    // this.onScrollLeft = this.onScrollLeft.bind(this);
   }
 
   componentDidUpdate() {
@@ -35,10 +35,10 @@ class List extends Component {
   }
 
   render() {
-    const { items, onChange } = this.props;
+    const { items, onChange, style } = this.props;
 
     return (
-      <div style={{ width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', ...style }}>
         <ScrollLeft onClick={this.onScrollLeft} style={{ fontSize: '2.8em' }} />
         <div style={{ width: 'calc(100% - 6em)', overflow: 'scroll' }} ref={(node) => { this.wrapperRef = node; }}>
           <div style={{ position: 'relative' }}>

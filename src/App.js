@@ -6,6 +6,7 @@ import { NextButton } from './Button/NextButton';
 import { PreviousButton } from './Button/PreviousButton';
 import Detail from './Detail';
 import { items as fakeData } from './fakeData';
+import MiniList from './MiniList';
 
 const OutsideWorld = styled.div`
   width: 500px;
@@ -58,9 +59,11 @@ class App extends Component {
     this.state = {
       items: this.props.items,
       current: this.props.items[0],
+      visibleFrame: 0,
     };
 
     this.handleActiveItemChange = this.handleActiveItemChange.bind(this);
+    this.handleFrameChange = this.handleFrameChange.bind(this);
     this.onNext = this.onNext.bind(this);
     this.onPrevious = this.onPrevious.bind(this);
   }
@@ -91,6 +94,10 @@ class App extends Component {
     }
   }
 
+  handleFrameChange(visibleFrame) {
+    this.setState({ visibleFrame });
+  }
+
   handleActiveItemChange(newActiveElementID) {
     const current = (
       this.state.items.find(x => x.id === newActiveElementID)
@@ -104,6 +111,7 @@ class App extends Component {
     const {
       current,
       items,
+      visibleFrame,
     } = this.state;
 
     return (
@@ -116,10 +124,22 @@ class App extends Component {
               items={items}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
+              onFrameChange={this.handleFrameChange}
             />
             <NextButton onClick={this.onNext} itemType={current.type} />
           </div>
-
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <MiniList
+              visibleFrame={visibleFrame}
+              style={{ maxWidth: '50%' }} items={current && current.images && current.images.map((imgUrl, i) => ({
+                id: imgUrl,
+                type: 'image',
+                src: imgUrl,
+                order: i,
+              }))}
+              item={current}
+            />
+          </div>
           {/* this div has overflow-x: scroll */}
           <div>
             <List onChange={this.handleActiveItemChange} items={items} item={current} />

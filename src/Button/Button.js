@@ -10,6 +10,7 @@ const Button = styled.button.attrs({
   margin: 0;
   width: 100%;
   height: 100%;
+  max-height: 100%;
   line-height: 0;
   font-size: 0;
 `;

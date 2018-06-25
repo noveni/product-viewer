@@ -80,16 +80,26 @@ class Detail360 extends Component {
     }
 
     if (nextFrame) {
-      this.setState({
-        lastKnownAbsX: absX,
-        visibleFrame: nextFrame,
-      });
+      this.updateFrame(nextFrame, absX);
     }
     return undefined;
   }
 
+  updateFrame(nextFrame, absX) {
+    const { onFrameChange } = this.props;
+
+    this.setState({
+      lastKnownAbsX: absX,
+      visibleFrame: nextFrame,
+    });
+
+    if (onFrameChange) {
+      onFrameChange(nextFrame);
+    }
+  }
+
   render() {
-    const { item, item: { images } } = this.props;
+    const { item, item: { images }, items } = this.props;
     const { visibleFrame } = this.state;
 
     if (visibleFrame !== undefined && item && item.images && (images[visibleFrame] === undefined)) {
@@ -119,6 +129,17 @@ class Detail360 extends Component {
               )
           }
         </DetailUi>
+        {/* <div>
+          <MiniList
+            style={{ maxWidth: '100px' }} items={item && item.images && item.images.map((imgUrl, i) => ({
+              id: imgUrl,
+              type: 'image',
+              src: imgUrl,
+              order: i,
+            }))}
+            item={item}
+          />
+        </div> */}
         <IconWrapper><Rotation360deg /></IconWrapper>
       </Swipeable>
     );
