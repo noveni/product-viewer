@@ -24,7 +24,7 @@ const IconWrapper = styled.div`
 const ListItem = ({ item, onChange }) => (
   <ListItemUi >
     {item && item.src && (
-      <Button onClick={() => onChange(item.id)}>
+      <Button onClick={() => onChange(item.id)} style={{ height: 'auto' }}>
         <Img style={{ maxHeight: '80px' }} src={item.src} alt="" />
       </Button>
     )}
