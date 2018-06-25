@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "detect-passive-events": "^1.0.4",
-    "lodash.debounce": "^4.0.8",
+    "lodash": "^4.0.8",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-swipeable": "^4.3.0",
