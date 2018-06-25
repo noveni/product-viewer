@@ -3,7 +3,7 @@ import Swipeable from 'react-swipeable';
 import { throttle } from 'lodash';
 import styled from 'styled-components';
 import Img from './Img';
-// import Swipeable from './Swipeable';
+import { calculateNextFrame } from './calculateNextFrame';
 import Rotation360deg from './icons/Rotation360deg';
 
 const DetailUi = styled.div`
@@ -24,36 +24,10 @@ const IconWrapper = styled.div `
   mix-blend-mode: exclusion;
 `;
 
-function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
-
-const getNormalizedIndex = (i, list) => {
-  let res = 0;
-  if (i < 0) {
-    const newValueMaybe = (list.length - 1) + i;
-    if (newValueMaybe > 0) {
-      if (newValueMaybe < list.length) {
-        res = newValueMaybe;
-      } else {
-        res = (list.length - 1) - (newValueMaybe % Math.abs(i));
-      }
-    }
-    // res = (list.length - 1) - i > 0
-    //   ? list.length - 1 - i
-    //   : getNormalizedIndex((list.length - 1) - i, list);
-  } else if (i > list.length) {
-    res = (i - (list.length - 1) < list.length - 1) ?
-      i - list.length :
-      getNormalizedIndex(i - list.length, list);
-  } else if (list[i]) {
-    res = i;
-  }
-  return res;
-};
 
 const getInitialState = () => ({
   visibleFrame: 0,
   lastKnownAbsX: null,
-  isAnimating: false,
 });
 
 class Detail360 extends Component {
@@ -62,13 +36,11 @@ class Detail360 extends Component {
     this.state = {
       visibleFrame: 0,
     };
-    this.timerRef = null;
 
     this.swiped = this.swiped.bind(this);
-    // this.storeRef = this.storeRef.bind(this);
-    // this.swiping = debounce(this.swiping.bind(this), 16);
     this.swiping = throttle(this.swiping.bind(this), 16, { trailing: false });
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.item.id !== this.props.item.id) {
       this.resetState();
@@ -79,57 +51,41 @@ class Detail360 extends Component {
     this.setState(getInitialState());
   }
 
-  swiped(e, deltaX, deltaY, isFlick, velocity) {
+  swiped(/* e, deltaX, deltaY, isFlick , velocity */) {
     this.setState({
       lastKnownAbsX: null,
     });
   }
 
-  swiping(e, deltaX, deltaY, absX, absY, velocity) {
+  swiping(e, deltaX, deltaY, absX, absY/* , velocity */) {
     const { item: { images } } = this.props;
-    const { isAnimating, lastKnownAbsX } = this.state;
+    const { lastKnownAbsX } = this.state;
     const visibleFrame = this.state.visibleFrame;
-    // console.log(deltaX, absX, velocity);
-    // console.log("You're Swiping...", e, deltaX, deltaY, absX, absY, velocity);
+    const nextFrame = calculateNextFrame(
+      deltaX,
+      deltaY,
+      absX,
+      absY,
+      images,
+      (window.innerWidth),
+      visibleFrame,
+      lastKnownAbsX,
+    );
 
     if (lastKnownAbsX === null) {
-      return this.setState({
+      this.setState({
         lastKnownAbsX: absX,
       });
+      return false;
     }
-    const isSwipingLeft = (deltaX > 0 && absX > lastKnownAbsX) || (deltaX < 0 && absX < lastKnownAbsX);
-    const isSwipingRight = (deltaX < 0 && absX > lastKnownAbsX) || (deltaX > 0 && absX < lastKnownAbsX);
 
-
-    const expectedIndexDifference = (lastKnownAbsX && Math.round(lastKnownAbsX > absX ?
-      (
-        lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length) -
-        lt(absX, 0, (window.innerWidth / 2), 0, images.length)
-      ) :
-      (
-        lt(absX, 0, (window.innerWidth / 2), 0, images.length) -
-        lt(lastKnownAbsX, 0, (window.innerWidth / 2), 0, images.length)
-      ) *
-      1.2)) || 0;
-
-    // console.log(deltaX, absX, lastKnownAbsX);
-    let expectedIndex;
-    if (isSwipingLeft) {
-      // console.log('on va a gauche');
-      expectedIndex = getNormalizedIndex(visibleFrame + expectedIndexDifference, images, false);
-    } else if (isSwipingRight) {
-      // console.log('on va a droite');
-      expectedIndex = getNormalizedIndex(visibleFrame - expectedIndexDifference, images, true);
-    } else {
-      // console.log('on stand by');
-      expectedIndex = visibleFrame;
+    if (nextFrame) {
+      this.setState({
+        lastKnownAbsX: absX,
+        visibleFrame: nextFrame,
+      });
     }
-    // console.log('visibleFrame', visibleFrame, 'expectedIndex', expectedIndex);
-    this.setState({
-      lastKnownAbsX: absX,
-      isAnimating: true,
-      visibleFrame: expectedIndex,
-    });
+    return undefined;
   }
 
   render() {

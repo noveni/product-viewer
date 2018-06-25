@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Swipeable from './Swipeable';
+import Swipeable from 'react-swipeable';
 import Img from './Img';
 import RatioBox from './RatioBox';
 import Detail360 from './Detail360';
