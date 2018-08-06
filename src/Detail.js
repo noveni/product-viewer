@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Swipeable from 'react-swipeable';
+import ReactCursorPosition from 'react-cursor-position';
+import Magnifier from 'react-magnifier';
 import Img from './Img';
 import RatioBox from './RatioBox';
 import Detail360 from './Detail360';
+
 
 const DetailUi = styled.div`
   max-height: 100%;
@@ -25,10 +28,13 @@ const DetailUiVideo = DetailUi.extend`
   }
 `;
 
+function lt(x, a, b, c, d) { return (x - a) / (b - c) * (d - c) + c; } // eslint-disable-line
+
 class Detail extends Component {
   constructor(props) {
     super(props);
     this.swiped = this.swiped.bind(this);
+    this.move = this.move.bind(this);
   }
 
   swiped(e, deltaX, deltaY, isFlick/* , velocity */) {
@@ -49,7 +55,9 @@ class Detail extends Component {
       }
     }
   }
-
+  move(e) {
+    console.log(e);
+  }
   render() {
     const { item } = this.props;
 
@@ -61,7 +69,7 @@ class Detail extends Component {
         <DetailUi>
           {
             item && item.src &&
-          (<Img style={{ margin: '0 auto' }} src={item.src} alt="" />)
+          (<Magnifier style={{ margin: '0 auto' }} src={item.src} mgShape="square" />)
           }
         </DetailUi>
       </Swipeable>
