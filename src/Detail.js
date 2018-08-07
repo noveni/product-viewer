@@ -33,7 +33,6 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.swiped = this.swiped.bind(this);
-    this.move = this.move.bind(this);
   }
 
   swiped(e, deltaX, deltaY, isFlick/* , velocity */) {
