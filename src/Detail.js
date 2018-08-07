@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Swipeable from 'react-swipeable';
-import ReactCursorPosition from 'react-cursor-position';
 import Magnifier from 'react-magnifier';
-import Img from './Img';
+// import Img from './Img';
 import RatioBox from './RatioBox';
 import Detail360 from './Detail360';
 
@@ -54,9 +53,6 @@ class Detail extends Component {
         }
       }
     }
-  }
-  move(e) {
-    console.log(e);
   }
   render() {
     const { item } = this.props;
